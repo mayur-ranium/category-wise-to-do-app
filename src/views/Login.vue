@@ -41,12 +41,10 @@
            signInWithEmailAndPassword(auth, email.value, password.value)
            .then((userCredential) => {
                const user = userCredential.user;
-               console.log(user);
                alert("User Login Successfully.")
                router.push("/");
            })
            .catch((error) => {
-               console.log(error.message)
                let errorMessage = {
                    'auth/user-not-found' : 'There is No account With This Email.',
                    'auth/invalid-email' : "Invalid Email",

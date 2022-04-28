@@ -22,8 +22,7 @@ const firebaseConfig = {
   const firebase = initializeApp(firebaseConfig);
   const auth = getAuth(firebase);
   const db = getFirestore(firebase);
- 
-  console.log(auth);
+
 
 const app = createApp(App);
 app.use(router);

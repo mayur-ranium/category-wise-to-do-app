@@ -46,7 +46,6 @@ export default {
             .then((userCredential) => {
             const user = userCredential.user;
             user.displayName = name.value;
-            console.log(user);
             const db = getFirestore();
             const docRef =  addDoc(collection(db, "users"), {
             username : user.displayName,
@@ -56,14 +55,12 @@ export default {
             router.push('/');
         })
             .catch((error) => {
-            console.log(error);
              let errorMessage = {
                  'auth/internal-error' : 'Password is Missing',
                  'auth/invalid-email': "Invalid Email" ,
                  'auth/weak-password': "Password should be at least 6 characters ",
                  'auth/email-already-in-use': "Email Already in use Try Another",
                 }
-                console.log(errorMessage[error.code]);
                 err.value = errorMessage[error.code];
             });
       }
