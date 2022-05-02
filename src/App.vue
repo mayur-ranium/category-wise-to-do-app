@@ -9,6 +9,8 @@
   </div>
   <div>
   <span class="font-bold text-xl text-white p-2"><router-link to="/">Home</router-link></span>
+  <span class="font-bold text-xl text-white p-2"><router-link to="/categoryCreate">Create</router-link></span>
+
   <span @click="logout" class="font-bold text-xl text-white p-2 cursor-pointer" v-if="loggedIn">Logout</span>
   <span class="font-bold text-xl text-white p-2" v-else >
    <router-link to="/register" class="px-2" >Register</router-link>
