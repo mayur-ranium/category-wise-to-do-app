@@ -9,7 +9,12 @@
   </div>
   <div>
   <span class="font-bold text-xl text-white p-2"><router-link to="/">Home</router-link></span>
-  <span @click="logout" class="font-bold text-xl text-white p-2 cursor-pointer" v-if="loggedIn">Logout</span>
+
+  <span class="font-bold text-xl text-white p-2" v-if="loggedIn">
+    <router-link to="/todo" class="px-2">ToDo</router-link>
+  <span @click="logout" class="font-bold text-xl text-white p-2 cursor-pointer">Logout</span>
+    
+    </span>
   <span class="font-bold text-xl text-white p-2" v-else >
    <router-link to="/register" class="px-2" >Register</router-link>
    <router-link to="/login" class="px-2">Login</router-link>
@@ -64,7 +69,7 @@ export default {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
+  text-align: left;
   color: #2c3e50;
 }
  a.router-link-exact-active {

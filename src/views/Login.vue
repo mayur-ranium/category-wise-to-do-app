@@ -42,7 +42,7 @@
            .then((userCredential) => {
                const user = userCredential.user;
                alert("User Login Successfully.")
-               router.push("/");
+               router.push("/todo");
            })
            .catch((error) => {
                let errorMessage = {

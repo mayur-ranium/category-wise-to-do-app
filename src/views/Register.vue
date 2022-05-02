@@ -52,7 +52,7 @@ export default {
             email:user.email
         });
             alert("Register User Successfully.")
-            router.push('/');
+            router.push('/todo');
         })
             .catch((error) => {
              let errorMessage = {

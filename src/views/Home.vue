@@ -1,9 +1,19 @@
 <template>
+<div class="text-center">
 <div class="text-2xl font-bold text-blue-500 mt-10">
     Welcome {{ userEmail }}
 </div>
 
 <div v-if="user">You Are Logged In </div>
+<div>
+ <h1 class="text-coloer">My ToDo APP</h1>
+<div>
+     <h1>Select Categories </h1>
+</div>
+</div>
+
+</div>
+
 </template>
 <script>
 import { getAuth, onAuthStateChanged } from "firebase/auth"
@@ -11,6 +21,7 @@ import { ref } from "vue"
 export default {
    setup(){
        const userEmail = ref('');
+      
        const auth = getAuth();
        onAuthStateChanged(auth, (user) => {
            if(user){
