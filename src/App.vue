@@ -9,7 +9,7 @@
   </div>
   <div class="flex-column lg:flex">
   <div class="font-bold text-xl text-white p-2"><router-link to="/">Home</router-link></div>
-  <div class="font-bold text-xl text-white p-2"><router-link to="/categoryCreate">Create</router-link></div>
+  <!-- <div class="font-bold text-xl text-white p-2"><router-link to="/category/create">Create</router-link></div> -->
   <div class="font-bold text-xl text-white p-2"><router-link to="/categories">Categories</router-link></div>
 
   <div @click="logout" class="font-bold text-xl text-white p-2 cursor-pointer" v-if="loggedIn">Logout</div>
@@ -29,6 +29,10 @@
 import { getAuth, signOut, onAuthStateChanged } from '@firebase/auth';
 import { useRouter } from "vue-router"
 import { ref } from "vue"
+// Import from vue-toastification/composition, not vue-toastification
+import { provideToast } from "vue-toastification";
+// Also import the toast's css
+import "vue-toastification/dist/index.css";
 export default {
   
 
@@ -36,6 +40,9 @@ export default {
     const Router = useRouter();
     const loggedIn = ref(false);
     const auth = getAuth()
+    provideToast({ timeout: 3000 });
+
+
     const logout = () => {
         signOut(auth)
         Router.push('/login');

@@ -15,14 +15,19 @@
 import { ref } from "vue"
 import { useRouter } from "vue-router"
 import { getFirestore, addDoc, collection } from "firebase/firestore"
+import { useToast } from "vue-toastification";
+
 export default {
     setup(){
          const categoryName = ref('');
          const errMsg = ref(false)
          const router = useRouter()
+         const toast = useToast();
+       
          const submit = () => {
-            if(categoryName.value == ''){
-                alert("Please Enter Category Name.")
+             if(categoryName.value == ''){
+                 toast.error("Please enter category name.");
+         
                 return;
             }
             const db = getFirestore();
@@ -30,10 +35,9 @@ export default {
             category : categoryName.value,
         });  
             categoryName.value = ""
-            alert("Category created succefully.");
             router.push('/categories');
          } 
-         return{categoryName,submit, errMsg};
+         return{categoryName,submit, errMsg, toast};
     }
 }
 
