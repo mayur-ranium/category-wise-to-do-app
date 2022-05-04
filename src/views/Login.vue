@@ -27,6 +27,7 @@
     import { getAuth, signInWithEmailAndPassword } from "firebase/auth"
     import { ref } from "vue"
     import { useRouter } from 'vue-router'
+    import { useToast } from "vue-toastification";
     export default {
     setup(){
       const email = ref('');
@@ -34,14 +35,14 @@
       const errorMessage = ref('');
       const err = ref('');
       const router = useRouter();
-    
+      const toast = useToast();
 
       const login = () => {
            const auth = getAuth();
            signInWithEmailAndPassword(auth, email.value, password.value)
            .then((userCredential) => {
                const user = userCredential.user;
-               alert("User Login Successfully.")
+               toast.success("User Login Successfully.")
                router.push("/");
            })
            .catch((error) => {

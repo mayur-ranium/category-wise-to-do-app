@@ -18,7 +18,18 @@ const router = createRouter({
             path: "/register",
             component: () => import("../views/Register.vue")
 
+        },
+        {
+            path: "/category/create",
+            component: () => import("../views/CategoryCreate.vue")
+
+        },
+        {
+            path: "/categories",
+            component: () => import("../views/CategoriesList.vue")
+
         }
+
     ]
 })
 

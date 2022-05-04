@@ -3,17 +3,20 @@
 </script>
 
 <template>
-<div class="flex justify-between bg-blue-400 px-10 py-4">
+<div class="lg:flex flex-column justify-between bg-blue-400 px-10 py-4">
   <div >
     <span class="font-bold text-xl text-white p-2">TODO APP</span> 
   </div>
-  <div>
-  <span class="font-bold text-xl text-white p-2"><router-link to="/">Home</router-link></span>
-  <span @click="logout" class="font-bold text-xl text-white p-2 cursor-pointer" v-if="loggedIn">Logout</span>
-  <span class="font-bold text-xl text-white p-2" v-else >
+  <div class="flex-column lg:flex">
+  <div class="font-bold text-xl text-white p-2"><router-link to="/">Home</router-link></div>
+  <!-- <div class="font-bold text-xl text-white p-2"><router-link to="/category/create">Create</router-link></div> -->
+  <div class="font-bold text-xl text-white p-2"><router-link to="/categories">Categories</router-link></div>
+
+  <div @click="logout" class="font-bold text-xl text-white p-2 cursor-pointer" v-if="loggedIn">Logout</div>
+  <div class="font-bold text-xl text-white p-2" v-else >
    <router-link to="/register" class="px-2" >Register</router-link>
    <router-link to="/login" class="px-2">Login</router-link>
-  </span>
+  </div>
   </div>
 
 
@@ -26,6 +29,10 @@
 import { getAuth, signOut, onAuthStateChanged } from '@firebase/auth';
 import { useRouter } from "vue-router"
 import { ref } from "vue"
+// Import from vue-toastification/composition, not vue-toastification
+import { provideToast } from "vue-toastification";
+// Also import the toast's css
+import "vue-toastification/dist/index.css";
 export default {
   
 
@@ -33,12 +40,15 @@ export default {
     const Router = useRouter();
     const loggedIn = ref(false);
     const auth = getAuth()
-     const logout = () => {
+    provideToast({ timeout: 3000 });
+
+
+    const logout = () => {
         signOut(auth)
         Router.push('/login');
-     }
-    
-    onAuthStateChanged(auth, (user) => {
+    }
+     
+     onAuthStateChanged(auth, (user) => {
           if(user){
               loggedIn.value = true;
           }else{

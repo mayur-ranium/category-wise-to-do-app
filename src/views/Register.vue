@@ -31,6 +31,7 @@ import { ref } from "vue"
 import { useRouter } from 'vue-router'
 import { getFirestore } from "firebase/firestore"
 import { collection, addDoc } from "firebase/firestore"; 
+import { useToast } from "vue-toastification";
 export default {
     setup(){
       const email = ref('');
@@ -39,6 +40,7 @@ export default {
       const err = ref('');
       const errorMessage = ref('');
       const router = useRouter();
+       const toast = useToast();
     
         const submit = () => {
             const auth = getAuth();
@@ -51,7 +53,7 @@ export default {
             username : user.displayName,
             email:user.email
         });
-            alert("Register User Successfully.")
+            toast.success("Register User Successfully.")
             router.push('/');
         })
             .catch((error) => {
