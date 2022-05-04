@@ -27,7 +27,6 @@ export default {
          const submit = () => {
              if(categoryName.value == ''){
                  toast.error("Please enter category name.");
-         
                 return;
             }
             const db = getFirestore();
