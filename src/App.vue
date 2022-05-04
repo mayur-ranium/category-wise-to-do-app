@@ -3,19 +3,20 @@
 </script>
 
 <template>
-<div class="flex justify-between bg-blue-400 px-10 py-4">
+<div class="lg:flex flex-column justify-between bg-blue-400 px-10 py-4">
   <div >
     <span class="font-bold text-xl text-white p-2">TODO APP</span> 
   </div>
-  <div>
-  <span class="font-bold text-xl text-white p-2"><router-link to="/">Home</router-link></span>
-  <span class="font-bold text-xl text-white p-2"><router-link to="/categoryCreate">Create</router-link></span>
+  <div class="flex-column lg:flex">
+  <div class="font-bold text-xl text-white p-2"><router-link to="/">Home</router-link></div>
+  <div class="font-bold text-xl text-white p-2"><router-link to="/categoryCreate">Create</router-link></div>
+  <div class="font-bold text-xl text-white p-2"><router-link to="/categories">Categories</router-link></div>
 
-  <span @click="logout" class="font-bold text-xl text-white p-2 cursor-pointer" v-if="loggedIn">Logout</span>
-  <span class="font-bold text-xl text-white p-2" v-else >
+  <div @click="logout" class="font-bold text-xl text-white p-2 cursor-pointer" v-if="loggedIn">Logout</div>
+  <div class="font-bold text-xl text-white p-2" v-else >
    <router-link to="/register" class="px-2" >Register</router-link>
    <router-link to="/login" class="px-2">Login</router-link>
-  </span>
+  </div>
   </div>
 
 
@@ -35,12 +36,12 @@ export default {
     const Router = useRouter();
     const loggedIn = ref(false);
     const auth = getAuth()
-     const logout = () => {
+    const logout = () => {
         signOut(auth)
         Router.push('/login');
-     }
-    
-    onAuthStateChanged(auth, (user) => {
+    }
+     
+     onAuthStateChanged(auth, (user) => {
           if(user){
               loggedIn.value = true;
           }else{
