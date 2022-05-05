@@ -34,6 +34,7 @@ export default {
             category : categoryName.value,
         });  
             categoryName.value = ""
+            toast.success("Category added successfully.")
             router.push('/categories');
          } 
          return{categoryName,submit, errMsg, toast};

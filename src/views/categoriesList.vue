@@ -18,9 +18,9 @@
             <tr v-for="(categories, categoryIndex) in categoriesList" :key="categoryIndex" class="text-center">
                 <td class="border border-slate-300 px-2 py-2 font-bold">{{ categoryIndex + 1 }}</td>
                 <td class="text-left px-2 py-2 capitalize border border-slate-300 hover:text-blue-500 font-bold cursor-pointer">
-                    {{categories.category}}
+                    {{categories.data.category}}
                  </td>
-                  <td class="px-2 py-2 capitalize border border-slate-300">
+                  <td class="px-2 py-2 capitalize border border-slate-300" @click="editCat(categories)">
                     <span class="fa fa-pen"></span>
                   </td>
                   <td class="px-2 py-2 capitalize border border-slate-300">
@@ -46,10 +46,16 @@ export default{
 
       querySnapshot.then(response =>{
         response.docs.forEach((doc) => {
-          categoriesList.value.push(doc.data());
-      });
+          categoriesList.value.push( 
+            {data : doc.data(), id : doc.id});
+        });
     })
-      return{categoriesList,Router}
+
+      const editCat = (categories) => {
+        Router.push(`/category/edit/${categories.id}`);
+      }
+     
+      return{categoriesList,Router,editCat}
    }
   }
 </script>
