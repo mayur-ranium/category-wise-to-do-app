@@ -9,10 +9,12 @@
   </div>
   <div class="flex-column lg:flex">
   <div class="font-bold text-xl text-white p-2"><router-link to="/">Home</router-link></div>
-  <!-- <div class="font-bold text-xl text-white p-2"><router-link to="/category/create">Create</router-link></div> -->
-  <div class="font-bold text-xl text-white p-2"><router-link to="/categories">Categories</router-link></div>
 
-  <div @click="logout" class="font-bold text-xl text-white p-2 cursor-pointer" v-if="loggedIn">Logout</div>
+  <div v-if="loggedIn" class="font-bold text-xl text-white p-2"><router-link to="/categories">Categories</router-link>
+  <span @click="logout" class="font-bold text-xl text-white p-2 cursor-pointer" >Logout</span>
+  
+  </div>
+
   <div class="font-bold text-xl text-white p-2" v-else >
    <router-link to="/register" class="px-2" >Register</router-link>
    <router-link to="/login" class="px-2">Login</router-link>

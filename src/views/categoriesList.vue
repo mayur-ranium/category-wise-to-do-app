@@ -8,15 +8,24 @@
    <table class="border-collapse border border-slate-400 w-full text-black text-left">
         <thead class="text-center">
         <tr>
-            <th>SR NO.</th>
-            <th class="border border-slate-300 px-2 font-bold">Category Name</th>
+            <th class="border border-slate-300 p-2 font-bold">SR NO.</th>
+            <th class="border border-slate-300 p-2 font-bold">CATEGORY NAME</th>
+            <th class="border border-slate-300 p-2 font-bold">EDIT</th>
+            <th class="border border-slate-300 p-2 font-bold">REMOVE</th>
         </tr>
         </thead>
-        <tbody>
+        <tbody class="text-black">
             <tr v-for="(categories, categoryIndex) in categoriesList" :key="categoryIndex" class="text-center">
-                <td class="border border-slate-300 px-2 py-2 ">{{ categoryIndex + 1 }}</td>
-                <td class="text-left px-2 py-2 capitalize border border-slate-300 ">
-                  {{categories.category}}</td>
+                <td class="border border-slate-300 px-2 py-2 font-bold">{{ categoryIndex + 1 }}</td>
+                <td class="text-left px-2 py-2 capitalize border border-slate-300 hover:text-blue-500 font-bold cursor-pointer">
+                    {{categories.category}}
+                 </td>
+                  <td class="px-2 py-2 capitalize border border-slate-300">
+                    <span class="fa fa-pen"></span>
+                  </td>
+                  <td class="px-2 py-2 capitalize border border-slate-300">
+                    <span class="fa fa-trash"></span>
+                  </td>
             </tr>
         </tbody>
     </table>
@@ -44,3 +53,16 @@ export default{
    }
   }
 </script>
+
+<style>
+    th {
+      background-color: rgb(114, 161, 238);
+      color:#ffffff;
+    }
+    tr:nth-child(even) {
+        background-color: rgb(241, 226, 226);
+    }
+    tr:nth-child(od) {
+        background-color: #fff;
+    }
+</style>

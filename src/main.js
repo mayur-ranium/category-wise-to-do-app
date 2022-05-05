@@ -4,7 +4,7 @@ import { getAuth } from "firebase/auth"
 import App from './App.vue'
 import router from "./Router/index"
 import { getFirestore } from "firebase/firestore";
-
+import '@fortawesome/fontawesome-free/js/all.js';
 import './style.css'
 
 
