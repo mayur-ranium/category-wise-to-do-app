@@ -28,6 +28,11 @@ const router = createRouter({
             path: "/categories",
             component: () => import("../views/CategoriesList.vue")
 
+        },
+        {
+            path: "/category/edit/:id",
+            component: () => import("../views/CategoryEdit.vue"),
+            props :true
         }
 
     ]
