@@ -18,12 +18,12 @@
             <tr v-for="(categories, categoryIndex) in categoriesList" :key="categoryIndex" class="text-center">
                 <td class="border border-slate-300 px-2 py-2 font-bold">{{ categoryIndex + 1 }}</td>
                 <td class="text-left px-2 py-2 capitalize border border-slate-300 hover:text-blue-500 font-bold cursor-pointer">
-                    {{categories.data.category}}
+                    {{categories.category}}
                  </td>
                   <td class="px-2 py-2 capitalize border border-slate-300" @click="editCat(categories)">
                     <span class="fa fa-pen"></span>
                   </td>
-                  <td class="px-2 py-2 capitalize border border-slate-300">
+                  <td class="px-2 py-2 capitalize border border-slate-300" @click="deleteCategory(categories, categoryIndex)">
                     <span class="fa fa-trash"></span>
                   </td>
             </tr>
@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import { collection, getDocs , getFirestore} from "firebase/firestore";
+import { collection, deleteDoc, getDocs , getFirestore, doc} from "firebase/firestore";
 import { ref } from "vue";
 import { useRouter } from "vue-router"
 export default{
@@ -45,17 +45,25 @@ export default{
       const Router = useRouter();
 
       querySnapshot.then(response =>{
-        response.docs.forEach((doc) => {
-          categoriesList.value.push( 
-            {data : doc.data(), id : doc.id});
-        });
-    })
+        response.docs.forEach((doc) => {  
+        categoriesList.value.push(
+          {
+            category : doc.data().category,
+            id : doc.id
+          })
+        })
+      })
 
       const editCat = (categories) => {
         Router.push(`/category/edit/${categories.id}`);
       }
-     
-      return{categoriesList,Router,editCat}
+
+      const deleteCategory = (categories, index) => {
+        deleteDoc(doc(db, "categories", categories.id));
+        categoriesList.value.splice(index,1);
+      }
+       
+      return{categoriesList,Router,editCat,deleteCategory}
    }
   }
 </script>
