@@ -1,18 +1,14 @@
-<script setup>
-
-</script>
-
 <template>
-<div class="lg:flex flex-column justify-between bg-blue-400 px-10 py-4">
+<div class="lg:flex flex-column justify-between items-center bg-blue-400 px-10 py-4">
   <div >
     <span class="font-bold text-xl text-white p-2">TODO APP</span> 
   </div>
-  <div class="flex-column lg:flex">
+  <div class="flex-column lg:flex items-center">
   <div class="font-bold text-xl text-white p-2"><router-link to="/">Home</router-link></div>
 
-  <div v-if="loggedIn" class="font-bold text-xl text-white p-2"><router-link to="/categories">Categories</router-link>
-  <span @click="logout" class="font-bold text-xl text-white p-2 cursor-pointer" >Logout</span>
-  
+  <div  v-if="loggedIn" class="font-bold text-xl flex-column lg:flex items-center  text-white p-2">
+      <div><router-link to="/categories">Categories</router-link></div>
+      <div @click="logout" class="font-bold text-xl text-white p-2 cursor-pointer" >Logout</div>
   </div>
 
   <div class="font-bold text-xl text-white p-2" v-else >
@@ -20,8 +16,6 @@
    <router-link to="/login" class="px-2">Login</router-link>
   </div>
   </div>
-
-
 </div>
  <router-view/>
 </template>
@@ -39,7 +33,7 @@ export default {
   
 
   setup(){
-    const Router = useRouter();
+    const router = useRouter();
     const loggedIn = ref(false);
     const auth = getAuth()
     provideToast({ timeout: 3000 });
@@ -47,7 +41,7 @@ export default {
 
     const logout = () => {
         signOut(auth)
-        Router.push('/login');
+        router.push('/login');
     }
      
      onAuthStateChanged(auth, (user) => {
@@ -56,20 +50,11 @@ export default {
           }else{
               loggedIn.value = false;
            }
-
       })
-
-    return {
-      logout, loggedIn
-    }
+    return {logout,loggedIn}
   }
-    
-   
-
  }
 </script>
-
-
 
 <style>
 #app {
@@ -80,7 +65,7 @@ export default {
   color: #2c3e50;
 }
  a.router-link-exact-active {
-    color: #2c3e50;
+  color: #2c3e50;
 
 }
 
