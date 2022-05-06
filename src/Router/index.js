@@ -33,7 +33,12 @@ const router = createRouter({
             path: "/category/edit/:id",
             component: () => import("../views/CategoryEdit.vue"),
             props :true
-        }
+        },
+        {
+            path: "/category/:name/addtodo",
+            component: () => import("../views/AddTodo.vue"),
+            props :true
+        },
 
     ]
 })

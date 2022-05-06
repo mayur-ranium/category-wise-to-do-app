@@ -17,7 +17,7 @@
         <tbody class="text-black">
             <tr v-for="(category, index) in categories" :key="index" class="text-center">
                 <td class="border border-slate-300 px-2 py-2 font-bold">{{ index + 1 }}</td>
-                <td class="text-left px-2 py-2 capitalize border border-slate-300 hover:text-blue-500 font-bold cursor-pointer">
+                <td class="text-left px-2 py-2 capitalize border border-slate-300 hover:text-blue-500 font-bold cursor-pointer" @click="addTodo(category)">
                     {{category.name}}
                  </td>
                   <td class="px-2 py-2 capitalize border border-slate-300" @click="editCategory(category)">
@@ -53,6 +53,11 @@ export default{
           })
         })
       })
+      
+      const addTodo = (category) => {
+        console.log(category.name);
+        router.push(`/category/${category.name}/addtodo`)
+      }
 
       const editCategory = (category) => {
         router.push(`/category/edit/${category.id}`);
@@ -63,7 +68,7 @@ export default{
         categories.value.splice(index,1);
       }
        
-      return{categories,router,editCategory,deleteCategory}
+      return{categories,router,editCategory,deleteCategory,addTodo}
    }
   }
 </script>
