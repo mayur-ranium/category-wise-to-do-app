@@ -12,13 +12,13 @@ export default {
    setup(){
        const userEmail = ref('');
        const auth = getAuth();
-       onAuthStateChanged(auth, (user) => {
-           if(user){
-               userEmail.value = user.email;
-           }else{
-               userEmail.value = "Home"
-           }
-       })
+    onAuthStateChanged(auth, (user) => {
+        if(user){
+            userEmail.value = user.email;
+        }else{
+            userEmail.value = "Home"
+             }
+        })
        return { userEmail }
    }
 }

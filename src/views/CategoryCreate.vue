@@ -20,7 +20,6 @@ import { useToast } from "vue-toastification";
 export default {
     setup(){
          const categoryName = ref('');
-         const errMsg = ref(false)
          const router = useRouter()
          const toast = useToast();
        
@@ -34,10 +33,10 @@ export default {
             category : categoryName.value,
         });  
             categoryName.value = ""
-            toast.success("Category added successfully.")
+            toast.success("Category added.")
             router.push('/categories');
          } 
-         return{categoryName,submit, errMsg, toast};
+         return{categoryName,submit, toast};
     }
 }
 

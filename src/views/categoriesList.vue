@@ -2,7 +2,7 @@
 <div class="categories-list lg:w-1/2 w-full mx-auto">
   <h1 class="text-2xl text-blue-500 my-6 font-bold">Todo Categories</h1>
  <div class="text-right">
-   <button class="bg-blue-500 px-2 py-1  text-white text-sm font-bold rounded" @click="Router.push('/category/create')">Add Category</button>
+   <button class="bg-blue-500 px-2 py-1  text-white text-sm font-bold rounded" @click="router.push('/category/create')">Add Category</button>
  </div>
   <div class="mt-6 w-full">
    <table class="border-collapse border border-slate-400 w-full text-black text-left">
@@ -15,15 +15,15 @@
         </tr>
         </thead>
         <tbody class="text-black">
-            <tr v-for="(categories, categoryIndex) in categoriesList" :key="categoryIndex" class="text-center">
-                <td class="border border-slate-300 px-2 py-2 font-bold">{{ categoryIndex + 1 }}</td>
+            <tr v-for="(category, index) in categories" :key="index" class="text-center">
+                <td class="border border-slate-300 px-2 py-2 font-bold">{{ index + 1 }}</td>
                 <td class="text-left px-2 py-2 capitalize border border-slate-300 hover:text-blue-500 font-bold cursor-pointer">
-                    {{categories.data.category}}
+                    {{category.name}}
                  </td>
-                  <td class="px-2 py-2 capitalize border border-slate-300" @click="editCat(categories)">
+                  <td class="px-2 py-2 capitalize border border-slate-300" @click="editCategory(category)">
                     <span class="fa fa-pen"></span>
                   </td>
-                  <td class="px-2 py-2 capitalize border border-slate-300">
+                  <td class="px-2 py-2 capitalize border border-slate-300" @click="deleteCategory(category, index)">
                     <span class="fa fa-trash"></span>
                   </td>
             </tr>
@@ -34,28 +34,36 @@
 </template>
 
 <script>
-import { collection, getDocs , getFirestore} from "firebase/firestore";
+import { collection, deleteDoc, getDocs , getFirestore, doc} from "firebase/firestore";
 import { ref } from "vue";
 import { useRouter } from "vue-router"
 export default{
     setup(){
       const db = getFirestore();
-      const categoriesList = ref([]);
+      const categories = ref([]);
       const querySnapshot =  getDocs(collection(db, "categories"));
-      const Router = useRouter();
+      const router = useRouter();
 
       querySnapshot.then(response =>{
-        response.docs.forEach((doc) => {
-          categoriesList.value.push( 
-            {data : doc.data(), id : doc.id});
-        });
-    })
+        response.docs.forEach((doc) => {  
+        categories.value.push(
+          {
+            name : doc.data().category,
+            id : doc.id
+          })
+        })
+      })
 
-      const editCat = (categories) => {
-        Router.push(`/category/edit/${categories.id}`);
+      const editCategory = (category) => {
+        router.push(`/category/edit/${category.id}`);
       }
-     
-      return{categoriesList,Router,editCat}
+
+      const deleteCategory = (category, index) => {
+        deleteDoc(doc(db, "categories", category.id));
+        categories.value.splice(index,1);
+      }
+       
+      return{categories,router,editCategory,deleteCategory}
    }
   }
 </script>
