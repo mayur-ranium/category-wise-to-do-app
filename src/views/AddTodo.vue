@@ -12,17 +12,13 @@
           <input type="text" class="bg-white text-black rounded-md border border-gray-200 p-3 focus:outline-none w-full focus:ring-1 focus:ring-violet-300" placeholder="description" v-model="description">
       </div>
       <div class="mb-8 text-left text-xl">
-          <label class="mb-2 block text-gray-800 font-medium"> Start Date :</label>
-          <input type="date" class="bg-white text-black rounded-md border border-gray-200 p-3 focus:outline-none w-full focus:ring-1 focus:ring-violet-300" placeholder="Start Date" v-model="startDate">
-      </div>
-      <div class="mb-8 text-left text-xl">
-          <label class="mb-2 block text-gray-800 font-medium"> End Date :</label>
-          <input type="date" class="bg-white text-black rounded-md border border-gray-200 p-3 focus:outline-none w-full focus:ring-1 focus:ring-violet-300" placeholder="End Date" v-model="endDate">
+          <label class="mb-2 block text-gray-800 font-medium"> Date :</label>
+          <input type="date" class="bg-white text-black rounded-md border border-gray-200 p-3 focus:outline-none w-full focus:ring-1 focus:ring-violet-300" placeholder="Date" v-model="date">
       </div>
       <div class="text-center">
       <button type="button" class="bg-blue-400 px-4 py-2 rounded-lg text-white font-bold" @click="addTodo">Add</button>
       </div>
-        </div>
+   </div>
  </div>
    
 </div>
@@ -41,8 +37,7 @@ export default {
     setup(){
        const name = ref ('');
        const description = ref('');
-       const startDate = ref('');
-       const endDate = ref('');
+       const date = ref('');
        const route = useRoute();
        const toast = useToast();
        name.value = route.params.name;
@@ -52,13 +47,12 @@ export default {
             const docRef =  addDoc(collection(db, "todos"), {
                 category : name.value,
                 todo : description.value,
-                start_date : startDate.value,
-                end_date : endDate.value
+                date : date.value,
         });  
            toast.success("Todo added.")
        }
 
-       return{name,description,startDate,endDate,addTodo,toast};
+       return{name,description,date,addTodo,toast};
     }
 
 }
