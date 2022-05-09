@@ -42,18 +42,18 @@ export default {
        const toast = useToast();
        
        form.value.categoryName = route.params.category;
-       form.value.date = moment(form.value.date).format('DD/MM/YYYY');
+
        const addTodo = () => {
-           
            if(form.value.description == ''){
                toast.error('Field is required.')
                return;
            }else{
                const db = getFirestore();
+               const dateFormat = moment(form.value.date).format('DD/MM/YYYY');
                const docRef =  addDoc(collection(db, "todos"), {
                    category : form.value.categoryName,
                    todo : form.value.description,
-                   date : form.value.date,
+                   date : dateFormat,
            });  
               toast.success("Todo added.")
            }
