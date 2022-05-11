@@ -1,11 +1,12 @@
 import { createApp } from 'vue'
 import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth"
+import { getAuth, onAuthStateChanged } from "firebase/auth"
 import App from './App.vue'
 import router from "./Router/index"
 import { getFirestore } from "firebase/firestore";
 import '@fortawesome/fontawesome-free/js/all.js';
-import './style.css'
+import './style.css';
+import store from './store'
 
 
 const firebaseConfig = {
@@ -21,11 +22,16 @@ const firebaseConfig = {
   
   const firebase = initializeApp(firebaseConfig);
   const auth = getAuth(firebase);
+  
+  auth.onAuthStateChanged(user => {
+    store.dispatch("fetchUser", user);
+  });
+  
   const db = getFirestore(firebase);
 
 
 const app = createApp(App);
 app.use(router);
-
+app.use(store);
 
 app.mount('#app');

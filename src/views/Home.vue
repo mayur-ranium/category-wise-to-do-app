@@ -3,7 +3,6 @@
     Welcome {{ userEmail }}
 </div>
 
-<div v-if="user">You Are Logged In </div>
 </template>
 <script>
 import { getAuth, onAuthStateChanged } from "firebase/auth"
@@ -12,6 +11,7 @@ export default {
    setup(){
        const userEmail = ref('');
        const auth = getAuth();
+    
     onAuthStateChanged(auth, (user) => {
         if(user){
             userEmail.value = user.email;

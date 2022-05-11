@@ -35,11 +35,14 @@ const router = createRouter({
             props :true
         },
         {
-            path: "/category/:category/addtodo",
+            path: "/category/addtodo",
             component: () => import("../views/AddTodo.vue"),
-            props :true
         },
+        {
+            path: "/about",
+            component: () => import("../views/About.vue")
 
+        },
     ]
 })
 

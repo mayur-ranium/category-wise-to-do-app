@@ -37,26 +37,28 @@
 import { collection, deleteDoc, getDocs , getFirestore, doc} from "firebase/firestore";
 import { ref } from "vue";
 import { useRouter } from "vue-router"
+import { useStore } from "vuex"
 export default{
     setup(){
       const db = getFirestore();
       const categories = ref([]);
-      const querySnapshot =  getDocs(collection(db, "categories"));
+      const store = useStore();
+      const user = store.getters.user;
+      const querySnapshot =  getDocs(collection(db, "users" , user.data.uid , "categories"));
       const router = useRouter();
 
       querySnapshot.then(response =>{
-        response.docs.forEach((doc) => {  
-        categories.value.push(
-          {
-            name : doc.data().category,
-            id : doc.id
-          })
+        response.docs.forEach((doc) => { 
+          categories.value.push(
+           {
+             name : doc.data().category,
+             id : doc.id
+           })
         })
       })
       
-      const addTodo = (category) => {
-        console.log(category.name);
-        router.push(`/category/${category.name}/addtodo`)
+      const addTodo = () => {
+        router.push("/category/addtodo")
       }
 
       const editCategory = (category) => {
@@ -64,7 +66,7 @@ export default{
       }
 
       const deleteCategory = (category, index) => {
-        deleteDoc(doc(db, "categories", category.id));
+        deleteDoc(doc(db, "users", user.data.uid,  "categories", category.id));
         categories.value.splice(index,1);
       }
        

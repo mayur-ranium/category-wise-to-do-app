@@ -6,7 +6,8 @@
   <div class="flex-column lg:flex items-center">
   <div class="font-bold text-xl text-white p-2"><router-link to="/">Home</router-link></div>
 
-  <div  v-if="loggedIn" class="font-bold text-xl flex-column lg:flex items-center  text-white p-2">
+  
+  <div  v-if="user.loggedIn" class="font-bold text-xl flex-column lg:flex items-center  text-white p-2">
       <div><router-link to="/categories">Categories</router-link></div>
       <div @click="logout" class="font-bold text-xl text-white p-2 cursor-pointer" >Logout</div>
   </div>
@@ -22,36 +23,26 @@
 
 <script>
 
-import { getAuth, signOut, onAuthStateChanged } from '@firebase/auth';
+import { getAuth, signOut } from '@firebase/auth';
 import { useRouter } from "vue-router"
 import { ref } from "vue"
-// Import from vue-toastification/composition, not vue-toastification
 import { provideToast } from "vue-toastification";
-// Also import the toast's css
 import "vue-toastification/dist/index.css";
+  import { useStore } from "vuex";
 export default {
   
 
   setup(){
     const router = useRouter();
-    const loggedIn = ref(false);
-    const auth = getAuth()
+    const auth = getAuth();
+    const store = useStore();
     provideToast({ timeout: 3000 });
-
-
+    const user = store.getters.user;
     const logout = () => {
         signOut(auth)
         router.push('/login');
     }
-     
-     onAuthStateChanged(auth, (user) => {
-          if(user){
-              loggedIn.value = true;
-          }else{
-              loggedIn.value = false;
-           }
-      })
-    return {logout,loggedIn}
+    return {logout, user}
   }
  }
 </script>
