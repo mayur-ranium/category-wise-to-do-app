@@ -20,14 +20,16 @@ import { ref } from "vue"
 import { getDoc,doc, getFirestore, updateDoc } from "firebase/firestore"
 import { useToast } from "vue-toastification";
 import { useRouter } from "vue-router"
-
+import { useStore } from "vuex"
 export default {
  props: ['id'],
 
 setup(props){
        const editCategory = ref('');
        const db = getFirestore();
-       const docRef = doc(db, "categories", props.id);
+       const store = useStore();
+       const user = store.getters.user;
+       const docRef = doc(db, "users", user.data.uid, "categories", props.id);
        const router = useRouter();
        const toast = useToast();
         

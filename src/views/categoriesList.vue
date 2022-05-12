@@ -17,7 +17,7 @@
         <tbody class="text-black">
             <tr v-for="(category, index) in categories" :key="index" class="text-center">
                 <td class="border border-slate-300 px-2 py-2 font-bold">{{ index + 1 }}</td>
-                <td class="text-left px-2 py-2 capitalize border border-slate-300 hover:text-blue-500 font-bold cursor-pointer">
+                <td class="text-left px-2 py-2 capitalize border border-slate-300 hover:text-blue-500 font-bold cursor-pointer" @click="addTodo(category)">
                     {{category.name}}
                  </td>
                   <td class="px-2 py-2 capitalize border border-slate-300" @click="editCategory(category)">
@@ -37,33 +37,40 @@
 import { collection, deleteDoc, getDocs , getFirestore, doc} from "firebase/firestore";
 import { ref } from "vue";
 import { useRouter } from "vue-router"
+import { useStore } from "vuex"
 export default{
     setup(){
       const db = getFirestore();
       const categories = ref([]);
-      const querySnapshot =  getDocs(collection(db, "categories"));
+      const store = useStore();
+      const user = store.getters.user;
+      const querySnapshot =  getDocs(collection(db, "users" , user.data.uid , "categories"));
       const router = useRouter();
 
       querySnapshot.then(response =>{
-        response.docs.forEach((doc) => {  
-        categories.value.push(
-          {
-            name : doc.data().category,
-            id : doc.id
-          })
+        response.docs.forEach((doc) => { 
+          categories.value.push(
+           {
+             name : doc.data().category,
+             id : doc.id
+           })
         })
       })
+      
+      const addTodo = () => {
+        router.push("/category/addtodo")
+      }
 
       const editCategory = (category) => {
         router.push(`/category/edit/${category.id}`);
       }
 
       const deleteCategory = (category, index) => {
-        deleteDoc(doc(db, "categories", category.id));
+        deleteDoc(doc(db, "users", user.data.uid,  "categories", category.id));
         categories.value.splice(index,1);
       }
        
-      return{categories,router,editCategory,deleteCategory}
+      return{categories,router,editCategory,deleteCategory,addTodo}
    }
   }
 </script>

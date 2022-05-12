@@ -25,8 +25,7 @@
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth"
 import { ref } from "vue"
 import { useRouter } from 'vue-router'
-import { getFirestore } from "firebase/firestore"
-import { collection, addDoc } from "firebase/firestore"; 
+import { getFirestore, setDoc, doc } from "firebase/firestore"
 import { useToast } from "vue-toastification";
 export default {
     setup(){
@@ -36,18 +35,15 @@ export default {
       const errorMessage = ref('');
       const router = useRouter();
       const toast = useToast();
+      const db = getFirestore();
+
     
         const submit = () => {
             const auth = getAuth();
             createUserWithEmailAndPassword(auth, email.value, password.value, name.value)
             .then((userCredential) => {
             const user = userCredential.user;
-            user.displayName = name.value;
-            const db = getFirestore();
-            const docRef =  addDoc(collection(db, "users"), {
-            username : user.displayName,
-            email:user.email
-        });
+          
             toast.success("Your registration hasbeen successful.")
             router.push('/');
         })
