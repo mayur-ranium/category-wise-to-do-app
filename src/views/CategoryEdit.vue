@@ -20,17 +20,16 @@ import { ref } from "vue"
 import { getDoc,doc, getFirestore, updateDoc } from "firebase/firestore"
 import { useToast } from "vue-toastification";
 import { useRouter } from "vue-router"
-import { useStore } from "vuex"
 export default {
  props: ['id'],
 
 setup(props){
        const editCategory = ref('');
        const db = getFirestore();
-       const store = useStore();
-       const user = store.getters.user;
-       const docRef = doc(db, "users", user.data.uid, "categories", props.id);
        const router = useRouter();
+       const userUid = ref('');
+       userUid.value = localStorage.getItem("userUid");
+       const docRef = doc(db, "users", userUid.value, "categories", props.id);
        const toast = useToast();
         
         
@@ -52,7 +51,7 @@ setup(props){
         toast.success("Category name updated.");
         router.push('/categories');
         }
-        return { editCategory, update}
+        return { editCategory, update, userUid}
     }
 }
 </script>

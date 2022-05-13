@@ -8,8 +8,8 @@
 
   
   <div  v-if="user.loggedIn" class="font-bold text-xl flex-column lg:flex items-center  text-white p-2">
-      <div><router-link to="/categories">Categories</router-link></div>
-      <div @click="logout" class="font-bold text-xl text-white p-2 cursor-pointer" >Logout</div>
+      <div><router-link to="/categories" class="px-1">Categories</router-link></div>
+      <div @click="logout" class="font-bold text-xl text-white p-1 cursor-pointer" >Logout</div>
   </div>
 
   <div class="font-bold text-xl text-white p-2" v-else >
@@ -25,10 +25,9 @@
 
 import { getAuth, signOut } from '@firebase/auth';
 import { useRouter } from "vue-router"
-import { ref } from "vue"
 import { provideToast } from "vue-toastification";
 import "vue-toastification/dist/index.css";
-  import { useStore } from "vuex";
+import { useStore } from "vuex";
 export default {
   
 
@@ -39,6 +38,7 @@ export default {
     provideToast({ timeout: 3000 });
     const user = store.getters.user;
     const logout = () => {
+      localStorage.clear();
         signOut(auth)
         router.push('/login');
     }

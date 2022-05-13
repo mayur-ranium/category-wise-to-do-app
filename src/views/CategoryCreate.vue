@@ -16,17 +16,14 @@ import { ref } from "vue"
 import { useRouter } from "vue-router"
 import { getFirestore, addDoc, collection} from "firebase/firestore"
 import { useToast } from "vue-toastification";
-import { useStore } from "vuex"
 
 export default {
     setup(){
          const categoryName = ref('');
          const router = useRouter()
          const toast = useToast();
-         const store = useStore();
-         const user = store.getters.user;
-    
-         
+        const userUid = ref('');
+         userUid.value = localStorage.getItem("userUid");
         const submit = async () => {
              if(categoryName.value == ''){
                  toast.error("Please enter category name.");
@@ -34,14 +31,14 @@ export default {
             }
         
         const db = getFirestore();
-        addDoc(collection(db, "users", user.data.uid , "categories"), {
+        addDoc(collection(db, "users", userUid.value , "categories"), {
            category : categoryName.value,
         });   
             categoryName.value = ""
             toast.success("Category added.")
             router.push('/categories');
          } 
-         return{categoryName,submit, toast};
+         return{categoryName,submit, toast, userUid};
     }
 }
 
