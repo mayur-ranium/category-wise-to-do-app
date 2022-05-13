@@ -23,13 +23,12 @@ const firebaseConfig = {
   const firebase = initializeApp(firebaseConfig);
   const auth = getAuth(firebase);
   
-  auth.onAuthStateChanged(user => {
+  onAuthStateChanged(auth, (user) => {
     store.dispatch("fetchUser", user);
-  });
-  
-  const db = getFirestore(firebase);
 
+  })
 
+const db = getFirestore(firebase);
 const app = createApp(App);
 app.use(router);
 app.use(store);

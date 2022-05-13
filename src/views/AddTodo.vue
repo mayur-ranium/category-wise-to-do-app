@@ -3,6 +3,7 @@
     <div class="container w-full lg:w-1/2 mx-auto text-left">
         <h1 class="text-blue-500 my-8 font-bold text-2xl text-center">ADD TODO : </h1>
       <div class="lg:w-1/2 w-full mx-auto lg:px-6 lg:pt-12 lg:pb-14 p-4 bg-slate-100 shadowm-sm rounded-lg">
+        
       <div class="mb-6">
         <button class="bg-blue-300 w-full font-bold text-white px-4 py-2 rounded flex justify-between items-center transition
           duration-150 uppercase" id="menu-btn" @click="openMenu">
@@ -52,25 +53,25 @@
      
  
 
-import { useRoute } from 'vue-router'
+import { useRouter } from 'vue-router'
 import { ref } from "vue"
 import { getFirestore,collection, getDocs,addDoc } from "firebase/firestore"
 import { useToast } from "vue-toastification";
 import moment from 'moment';
-import { useStore } from "vuex"
+
 export default {
     setup(){
         const form = ref({
             description : '',
             date : '',
        })
-       const router = useRoute();
+       const router = useRouter();
        const toast = useToast();
        const db = getFirestore();
-       const store = useStore();
        const categories = ref([]);
-       const user = store.getters.user;
-       const querySnapshot =  getDocs(collection(db, "users" , user.data.uid , "categories"));
+       const userUid = ref('');
+       userUid.value = localStorage.getItem("userUid");
+       const querySnapshot =  getDocs(collection(db, "users" , userUid.value , "categories"));
        const categoryName = ref('');
        const categoryId = ref('');
        
@@ -105,23 +106,33 @@ export default {
             openMenu();            
         }
 
-       //add todo
+       //add todo function
        const addTodo = () => {
            if(form.value.description == '' && categoryName.value){
                toast.error('Field is required.')
                return;
            }else{
                const db = getFirestore();
-               const dateFormat = moment(form.value.date).format('DD/MM/YYYY');
-               addDoc(collection(db, "users", user.data.uid, "categories", categoryId.value, "todos"), {
+
+               //date set format
+               if(form.value.date == ''){
+                 form.value.date = moment(new Date()).format('DD/MM/YYYY');
+               }else{
+                 form.value.date = moment(form.value.date).format('DD/MM/YYYY');
+               }
+
+              //add todos to collection
+               addDoc(collection(db, "users", userUid.value, "categories", categoryId.value, "todos"), {
                    category : categoryName.value,
                    todo : form.value.description,
-                   date : dateFormat,
+                   date : form.value.date
            });  
+              localStorage.setItem("categoryId",categoryId.value);
+              router.push('/todos');
               toast.success("Todo added.")
            }
        }
-       return{form,addTodo,toast,openMenu,categories, selectCategory, categoryName, categoryId};
+       return{form,addTodo,toast,openMenu,categories, selectCategory, categoryName,categoryId,router, userUid};
     }
 }
 </script>

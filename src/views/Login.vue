@@ -35,6 +35,7 @@
            signInWithEmailAndPassword(auth, email.value, password.value)
            .then((userCredential) => {
                const user = userCredential.user;
+               localStorage.setItem("userUid", user.uid);
                toast.success("You have successfully logged in.")
                router.push("/");
            })
